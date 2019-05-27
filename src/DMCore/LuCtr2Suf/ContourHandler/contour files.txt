@@ -1,0 +1,16 @@
+1. .contour
+represented as a set of planes with contour vertices and contour edges.
+
+If two planes share contour vertices, it's not necessary that the intersected vertcies already exists, preprocessing will take care of that
+
+  (.contour + comnL)
+a set of planes sharing the same common line.
+
+2. .contour2
+a set of planes, potentially include at most one set of planes sharing a common line.
+For each plane, besides contour vertices and contour edges, it also saves the intersected contour vertices indices between plane-i and all planes (plane-0..plane-(n-1). Assumption is that there are at most two intersected points, if both are -1, meaning there is no intersection point, otherwise, the intersection points indices in plane-i's contour vertices. In this kind of format, all intersected contour vertices have to be precomputed and saved in the file
+
+3. .ctrGraph
+All planes share the same set of contour vertices.
+The file starts with all the contour vertices, and then followed by all the planes. Each plane has a set of contour edges(v1, v2, m1, m2).
+
