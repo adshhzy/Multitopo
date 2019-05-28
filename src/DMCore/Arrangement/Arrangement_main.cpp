@@ -508,8 +508,8 @@ void Arrangement::constructArrangementMM(
     //int** ssspace;			//F ids of each space
     //int** ssspace_planeside;	//which side of the oriented plane is each face in each space
 
-
-
+    streambuf* orig_buf = cout.rdbuf();
+    cout.rdbuf(NULL);
 
     bool isOnEdge = true;
 
@@ -895,7 +895,7 @@ void Arrangement::constructArrangementMM(
     outputCurve(string("../ConvertFolder/testmerge.curve"),debugglobalVpos,globalEdges_cluster);
 
 
-
+    cout.rdbuf(orig_buf);
     //for(int i=0;i<globalEdges_cluster.size()/2;++i)
     // cout<<i<<' '<<(veclen(&(globalVpos[3*globalEdges_cluster[i*2]]),&(globalVpos[3*globalEdges_cluster[i*2+1]])))<<endl;
     //cout<<"XXXXXXXXXXXXX: "<<i<<endl;

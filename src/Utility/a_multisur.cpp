@@ -719,7 +719,7 @@ bool MultiSurface::clearup(){
 bool MultiSurface::ReAllocation(bool ismanifold, int colormethod, char *inputcolors,bool isImportContour){
 
 
-    cout<<"ReAllocation"<<endl;
+    //cout<<"ReAllocation"<<endl;
     vector< int > newverticeInd (mixSurf.n_vertices,-1);
     for(auto a:curvee2v)newverticeInd[a] = 0;
 
@@ -798,7 +798,7 @@ bool MultiSurface::ReAllocation(bool ismanifold, int colormethod, char *inputcol
 
 
 
-    cout<<"reallocation debug 1"<<endl;
+    //cout<<"reallocation debug 1"<<endl;
     inversemap.resize(numofSurf);
     surfbuffer.resize(numofSurf);
     for(int i =0;i<numofSurf;i++){
@@ -894,7 +894,7 @@ bool MultiSurface::ReAllocation(bool ismanifold, int colormethod, char *inputcol
     //    for(int i=0;i<numofSurf;++i){
     //        cout<<surfbuffer[i].weighted_fcolor.size()<<endl;
     //    }
-    cout<<"reallocation debug end "<<surfbuffer.size()<<endl;
+    //cout<<"reallocation debug end "<<surfbuffer.size()<<endl;
 
 }
 

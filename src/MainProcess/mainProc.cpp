@@ -17,20 +17,18 @@
 
 ParallelArrangement pArr;
 vector<MMLevelSet>pLs;
-int az2(string incontour, string outdir, float _teta, float _randwb, int _nSmBefLoop, int _nLoop, int _nSmInLoop, int _genus, int MMprop_f2vmethod,
-        int endstep, vector<int>&numofTopo, vector<int>&cellSeq, int &nMat, int computeSaveLoad, string iofile){
+int az2(string incontour, string outdir, int MMprop_f2vmethod,
+        int endstep, int density, vector<int>&numofTopo, vector<int>&cellSeq, int &nMat, int computeSaveLoad, string iofile){
 
 
     GroupingManager gm;
     clock_t start, end;
     vector<float> times;
 
-    bool argExploreAll = true;
-    int density = 2;
+
     float upbound = 1.0f;
     float segLenLowBound = 0.0f;
-    float spacing = 100.0f;
-    float tetVolLimit = 10000.0f;
+
 
     bool outputPerCell = true;
     bool allowHighGenus = false;
@@ -40,7 +38,7 @@ int az2(string incontour, string outdir, float _teta, float _randwb, int _nSmBef
 
     cout << "\n[1] Preprocessing data & Exploring topologies in cells ..." << endl;
     start = clock();
-    gm.setPara(outdir.data(), _teta, _randwb, _nSmBefLoop, _nLoop, _nSmInLoop);
+    gm.setPara(outdir.data(), -1,-1,-1,-1,-1);
     gm.Contour2ArrangementMM(incontour.data(), NULL,NULL);
     end = clock();
     times.push_back( (float)(end - start) / CLOCKS_PER_SEC );

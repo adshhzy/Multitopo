@@ -687,9 +687,9 @@ void Mesh::BuildNeighborTable_nonmanifold(){
     //cout<<endl;
     uint num_nonv = 0;
     for(auto a:vertices_non_manifold)if(a)++num_nonv;
-    cout<<"number of edges: "<<n_edges<<endl;
-    cout<<"number of non-manifold edges: "<<num_none<<endl;
-    cout<<"number of non-manifold vertices: "<<num_nonv<<endl;
+    //cout<<"number of edges: "<<n_edges<<endl;
+    //cout<<"number of non-manifold edges: "<<num_none<<endl;
+    //cout<<"number of non-manifold vertices: "<<num_nonv<<endl;
     isbuildneighbortable = true;
 
 

@@ -225,7 +225,7 @@ void Surface::clearup(){
     invert_vertices_colordegree.clear();
 
     isbuilddisp = false;
-    cout<<"clearup!!!!!!!!"<<endl;
+    //cout<<"clearup!!!!!!!!"<<endl;
 
 
 }
@@ -368,7 +368,7 @@ bool Surface::readSufFile(string filename){
 
     faces2vertices = mm_faces[0];
     n_faces = faces2vertices.size()/3;
-    cout<<n_vertices<<n_faces<<endl;
+    //cout<<n_vertices<<n_faces<<endl;
 
 
 
