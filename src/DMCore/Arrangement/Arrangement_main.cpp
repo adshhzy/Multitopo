@@ -892,7 +892,7 @@ void Arrangement::constructArrangementMM(
     for(auto a:globalVpos)debugglobalVpos.push_back(a);
 
     for(int i=0;i<ssfacenum;++i){for(auto a:globalEdges[i])globalEdges_cluster.push_back(a+ssvernum);}
-    outputCurve(string("../ConvertFolder/testmerge.curve"),debugglobalVpos,globalEdges_cluster);
+    //outputCurve(string("../ConvertFolder/testmerge.curve"),debugglobalVpos,globalEdges_cluster);
 
 
     cout.rdbuf(orig_buf);
@@ -1087,8 +1087,8 @@ void Arrangement::constructArrangementMM(
         for(auto b:_globalEdgesMat[a])Cs2CtrM[i].push_back(b);
     }
 
-    bool writeCtrGraphFile(string filename,const vector<float>&vertices,const vector<vector<int>>&edge2vertices,const vector<vector<int>>&edgeMat, const vector<vector<float>>&planepara);
-    writeCtrGraphFile("../ConvertFolder/CtrGraph",_globalVpos,Cs2Ctr,Cs2CtrM,_Cs2PlaneParas);
+    //bool writeCtrGraphFile(string filename,const vector<float>&vertices,const vector<vector<int>>&edge2vertices,const vector<vector<int>>&edgeMat, const vector<vector<float>>&planepara);
+    //writeCtrGraphFile("../ConvertFolder/CtrGraph",_globalVpos,Cs2Ctr,Cs2CtrM,_Cs2PlaneParas);
 
 
 

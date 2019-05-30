@@ -78,7 +78,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
 
 
     ifstream ifs;ofstream ofs;
-    if(computeSaveLoad==2){
+    if(computeSaveLoad==2 || computeSaveLoad ==3){
         ifs.open(iofile,ios::in | ios::binary);
         if(ifs.fail()){
             cout<<"cant open file: "<<iofile<<endl;
@@ -183,7 +183,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
         clock_t start = clock(), end;
         start = clock();
 
-        if(computeSaveLoad==2)ls.ReadTopologyFromFile(ifs);
+        if(computeSaveLoad==2 || computeSaveLoad ==3)ls.ReadTopologyFromFile(ifs);
         else ls.ExploreTopologiesAlongRays(allowHighGenus, density, segLenLowBound);//ray shooting
 
         if(computeSaveLoad==1)ls.WriteTopologyToFile(ofs);
@@ -211,7 +211,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
            // exit(500);
         }
         Labeling topolables;
-        for (int i = 0; i < nTopo; ++i) {
+        if(computeSaveLoad!=3)for (int i = 0; i < nTopo; ++i) {
 
             cout<<i<<' '<<nTopo<<' '<<ls._cellTopologies[i]._junctionpoints<<' '<<ls._cellTopologies[i]._score<<endl;
             if (outputPerCell && true/*i < NMAXSUFOUTPUT*/) {
@@ -254,7 +254,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
     cout << "Done" << endl;
 
 
-    if(computeSaveLoad==2){
+    if(computeSaveLoad==2 || computeSaveLoad==3){
         ifs.close();
     }else if(computeSaveLoad==1){
         ofs.close();

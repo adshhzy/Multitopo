@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <vector>
 #include <string>
-#include<dirent.h>
+#include <dirent.h>
 #include <sys/stat.h>
 using namespace std;
 
@@ -13,7 +13,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
         int endstep, int density, vector<int>&numofTopo, vector<int>&cellSeq, int &nMat, int computeSaveLoad, string iofile);
 vector<int> runDynamicProgramming(string protocalname, vector<int>&TopoConstraintInd);
 void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd);
-
+void SplitFileName (const std::string& fullfilename,std::string &filepath,std::string &filename,std::string &extname);
 
 void makemethodfolder(string &foldername){
     struct stat sb;
@@ -31,21 +31,21 @@ int main(int argc, char** argv)
     //string ctrmodelname = "ringc";                   MMprop_f2vmethod = 0;
     string ctrmodelname = "mug";                     MMprop_f2vmethod = 0;
 
-    string mediumfolder("/Users/Research/Geometry/MM/MultiTopo/ConvertFolder/");
+    string mediumfolder("../ConvertFolder/");
 
     string inputctr = mediumfolder+ctrmodelname+string(".contour");
-    string outputss = mediumfolder+ctrmodelname+string("_/");
+    string outputss = mediumfolder+ctrmodelname+string("/");
     string ioTopofilename = string("../saveTopos/")+ctrmodelname+string(".topos");
 
     string protocol_name = string("../protocal/")+ctrmodelname+string(".txt");
 
-
+    string ext, inpath;
 
     //original curve 0; curve net: 1;  cssegs: 2; cssegs New Ctr: 3; DP and Cell :4 ;
     int methodid = 4;
 
-    //compute: 0; compute and save: 1;  load: 2;
-    int computeSaveLoad = 0;
+    //compute: 0; compute and save: 1;  load: 2; load only, not writing suf: 3;
+    int computeSaveLoad = 1;
 
     int ray_density = 2;
     isCJP = false;
@@ -57,6 +57,7 @@ int main(int argc, char** argv)
         switch (c) {
         case 'i':
             inputctr = string(optarg);
+            SplitFileName(inputctr,inpath,ctrmodelname,ext);
             break;
         case 'o':
             outputss = string(optarg);
@@ -72,7 +73,10 @@ int main(int argc, char** argv)
             break;
         case 's':
             computeSaveLoad = atoi(optarg);
-            if(computeSaveLoad<0 || computeSaveLoad > 2)computeSaveLoad = 0;
+            if(computeSaveLoad<0 || computeSaveLoad > 3){
+                cout<<"computeSaveLoad only takes 0 1 2 3"<<endl;
+                computeSaveLoad = 0;
+            }
             break;
         case 'j':
             isCJP = true;
@@ -124,5 +128,15 @@ int main(int argc, char** argv)
 
 
 
-
+inline void SplitFileName (const std::string& fullfilename,std::string &filepath,std::string &filename,std::string &extname) {
+    int pos;
+    pos = fullfilename.find_last_of('.');
+    filepath = fullfilename.substr(0,pos);
+    extname = fullfilename.substr(pos);
+    pos = filepath.find_last_of("\\/");
+    filename = filepath.substr(pos+1);
+    pos = fullfilename.find_last_of("\\/");
+    filepath = fullfilename.substr(0,pos+1);
+    //cout<<modname<<' '<<extname<<' '<<filepath<<endl;
+}
 

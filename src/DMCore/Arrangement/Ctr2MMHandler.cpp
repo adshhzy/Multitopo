@@ -222,8 +222,8 @@ void Ctr2ArHandler::processContourMM(const char* filename,Arrangement &ar){
         }
     }
 
-    partitioner.wfilePartition((string("../ConvertFolder/test_")+"partition.txt").c_str(), ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
-            ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);
+//    partitioner.wfilePartition((string("../ConvertFolder/test_")+"partition.txt").c_str(), ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
+//            ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);
 #if _DEBUG_LU
     //partitioner.wfilePartition("mmdebug/partition.txt", ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
         //ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);
