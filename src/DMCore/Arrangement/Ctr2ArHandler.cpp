@@ -217,8 +217,8 @@ void Ctr2ArHandler::readContour(const char* filename, const char* volfilename, c
 		}
 	}
 
-    partitioner.wfilePartition((ar.t_savedir+"partition.txt").c_str(), ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
-            ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);
+//    partitioner.wfilePartition((ar.t_savedir+"partition.txt").c_str(), ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
+//            ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);
 #if _DEBUG_LU
 	//partitioner.wfilePartition("mmdebug/partition.txt", ssvernum, ssver, ssedgenum, ssedge, ssfacenum, ssfaceedgenum,
 		//ssface, ssface_planeindex, ssspacenum, ssspacefacenum, ssspace, ssspace_planeside);

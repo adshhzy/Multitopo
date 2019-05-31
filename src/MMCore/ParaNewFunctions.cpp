@@ -18,7 +18,7 @@
 
 
 
-void ParallelArrangement::loadInfoFromSpaceDivision(Arrangement &ar, int MMprop_f2vmethod, string &outfoldername){
+void ParallelArrangement::loadInfoFromSpaceDivision(Arrangement &ar, int MMprop_f2vmethod, string outfoldername){
 
 
     this->outfoldername = outfoldername;
@@ -1392,11 +1392,20 @@ void ParallelArrangement::CreateTotalSurf(vector<vector<double>>&TopoVs, vector<
     if(isOutputFiles){
         n_rf::CrossSections CS;
         CS.ReadCrossSections(ctrVs,Cs2PlaneParas,uCtrEperCs,CtrEMperCs);
-        CS.WriteCrossSections(string("../mappingInfo/ctr"));
-        writeCtrGraphFile(string("../mappingInfo/ctr"),ctrctrVs,CtrEperCs,CtrEMperCs,_Cs2PlaneParas);
-        OutputNewCtrs(string("../mappingInfo/ctr"),mergeCs.hidden_ctrV,mergeCs.hidden_ctrE);
-        OutputMappingInfo(string("../mappingInfo/"));
+        CS.WriteCrossSections(outfoldername_meta + string("ctr"));
+        writeCtrGraphFile(outfoldername_meta + string("ctr"),ctrctrVs,CtrEperCs,CtrEMperCs,_Cs2PlaneParas);
+        OutputNewCtrs(outfoldername_meta + string("ctr"),mergeCs.hidden_ctrV,mergeCs.hidden_ctrE);
+        OutputMappingInfo(outfoldername_meta);
     }
+
+//    if(isOutputFiles){
+//        n_rf::CrossSections CS;
+//        CS.ReadCrossSections(ctrVs,Cs2PlaneParas,uCtrEperCs,CtrEMperCs);
+//        CS.WriteCrossSections(string("../mappingInfo/ctr"));
+//        writeCtrGraphFile(string("../mappingInfo/ctr"),ctrctrVs,CtrEperCs,CtrEMperCs,_Cs2PlaneParas);
+//        OutputNewCtrs(string("../mappingInfo/ctr"),mergeCs.hidden_ctrV,mergeCs.hidden_ctrE);
+//        OutputMappingInfo(string("../mappingInfo/"));
+//    }
 
 
 
@@ -1410,30 +1419,19 @@ void ParallelArrangement::CreateTotalSurf(vector<vector<double>>&TopoVs, vector<
 
 }
 
+void ParallelArrangement::SetMetaFolder(string meta_folder){
+    outfoldername_meta = meta_folder;
+}
+
 void ParallelArrangement::WriteToMappingInfo(){
 
 
-//    vector<vector<int>>CtrEperCs(_nCrossSection);
-//    vector<vector<int>>CtrEMperCs(_nCrossSection);
 
-//    auto &hidden_writeCtrE = mergeCs.hidden_writeCtrE;
-//    auto &hidden_ctrELable = mergeCs.hidden_ctrELable;
-//    for(int i=0;i<mergeCs.hidden_CtrE2CSs.size();++i){
-//        int c = mergeCs.hidden_CtrE2CSs[i];
-//        CtrEperCs[c].push_back(hidden_writeCtrE[i*2]);
-//        CtrEperCs[c].push_back(hidden_writeCtrE[i*2+1]);
-//        CtrEMperCs[c].push_back(hidden_ctrELable[i*2]);
-//        CtrEMperCs[c].push_back(hidden_ctrELable[i*2+1]);
 
-//    }
-//    vector<float>ctrctrVs;
-//    for(int i=0;i<ctrVnum*3;++i)ctrctrVs.push_back(ctrVs[i]);
 
-    {
-        //writeCtrGraphFile(string("../mappingInfo/ctr"),ctrctrVs,CtrEperCs,CtrEMperCs,_Cs2PlaneParas);
-        OutputNewCtrs(string("../mappingInfo/ctr"),mergeCs.hidden_ctrV,mergeCs.hidden_ctrE);
-        OutputMappingInfo(string("../mappingInfo/"));
-    }
+     OutputNewCtrs(outfoldername_meta+string("ctr"),mergeCs.hidden_ctrV,mergeCs.hidden_ctrE);
+     OutputMappingInfo(outfoldername_meta);
+
 
 
 
@@ -1472,8 +1470,12 @@ void ParallelArrangement::OutputNewCtrs(string filename,const vector<double>&ver
     //return true;
 }
 
-
+void makemethodfolder(string foldername);
 void ParallelArrangement::OutputMappingInfo(string filepath){
+
+    makemethodfolder(filepath + "loop2Segs/");
+    makemethodfolder(filepath + "topoInfo/");
+    makemethodfolder(filepath + "topoInfoVVec/");
 
     auto& seg2edges = newCtrNet.mixCurve.seg2edges;
 
@@ -1481,16 +1483,17 @@ void ParallelArrangement::OutputMappingInfo(string filepath){
     writeVVecFile(filename,seg2edges);
 
 
+
     for(int celli=0;celli<_nCell;++celli){
         auto& cloop2Segs = loop2Segs[celli];
         string filename = filepath + "loop2Segs/cell"+to_string(celli);
         writeVVecFile(filename,cloop2Segs);
     }
-    cout<<"0"<<endl;
+    //cout<<"0"<<endl;
     filename = filepath + "loop2label";
     writeVVecFile(filename,_bdLoops2lable);
 
-    cout<<"1"<<endl;
+    //cout<<"1"<<endl;
     string prepath = filepath + "topoInfo/info_";
     _cellTopo_ori;
 

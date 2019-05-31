@@ -26,7 +26,7 @@ public:
     //connector
 
     void loadEntireTet(tetgenio &out);
-    void loadInfoFromSpaceDivision(Arrangement &ar, int MMprop_f2vmethod, string &outfoldername);
+    void loadInfoFromSpaceDivision(Arrangement &ar, int MMprop_f2vmethod, string outfoldername);
 
     // Load parallel cross sections (colored images) and the spacings between
     // adjacent cross sections.
@@ -195,6 +195,8 @@ public:
 
     string outfoldername;
 
+    string outfoldername_meta;
+
 public:
 
     void DynamicProgramming(string protocalname,vector<int>&constraintTopos);
@@ -222,4 +224,6 @@ public:
     void WriteToMappingInfo();
 
     void OutputDPInfo(string filepath, vector<int> pickTopoIndex, double totalscore, double time, vector<int> isoComp2VEF, vector<int> isoComps2label);
+
+    void SetMetaFolder(string meta_folder);
 };

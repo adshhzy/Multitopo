@@ -14,12 +14,33 @@
 #include "ParallelArrangement.h"
 #include <iterator>
 #include <string>
+#include <dirent.h>
+#include <sys/stat.h>
 
 ParallelArrangement pArr;
 vector<MMLevelSet>pLs;
+
+void makemethodfolder(string foldername){
+    struct stat sb;
+    if(!(stat(foldername.data(), &sb) == 0 && S_ISDIR(sb.st_mode)))mkdir(foldername.data(),0777);
+    return;
+}
+
+
 int az2(string incontour, string outdir, int MMprop_f2vmethod,
         int endstep, int density, vector<int>&numofTopo, vector<int>&cellSeq, int &nMat, int computeSaveLoad, string iofile){
 
+    string cs_folder = outdir+string("cross-section/");
+    string suf_folder = outdir+string("suf/");
+    string meta_folder = outdir+string("meta/");
+
+
+    makemethodfolder(cs_folder);
+    makemethodfolder(suf_folder);
+    makemethodfolder(meta_folder);
+
+    //set output path for metadata
+    pArr.SetMetaFolder(meta_folder);
 
     GroupingManager gm;
     clock_t start, end;
@@ -34,7 +55,6 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
     bool allowHighGenus = false;
 
 
-    bool isGenMo = false;
 
     cout << "\n[1] Preprocessing data & Exploring topologies in cells ..." << endl;
     start = clock();
@@ -49,23 +69,12 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
     //return 0;
 
 
-    pArr.loadInfoFromSpaceDivision(gm.ar,MMprop_f2vmethod,outdir);
+    pArr.loadInfoFromSpaceDivision(gm.ar,MMprop_f2vmethod,cs_folder);
     cellSeq = pArr.newCtrNet.mergingorder;
 
     nMat = pArr._nMat;
 
     if(endstep == 0)return pArr._frameFs.size();
-
-
-    //n_rf::Surface CsSurfNet;
-    //CsSurfNet.importSurface(string("../ConvertFolder/mediumRe/"),string(".obj"),string("_fc_vec.txt"),string("_fce_vec.txt"), string("_f_vec.txt"),string("_v_vec.txt"),false);
-
-    //n_rf::PartialCurve CsCurvNet;
-    //CsCurvNet.ImportCurve(CsSurfNet.hidden_ctrV,CsSurfNet.hidden_ctrE,CsSurfNet.hidden_ctrELable,CsSurfNet.hidden_ctrE2Cells);
-    //CsCurvNet.ImportCurve(pArr.mergeCs.hidden_ctrV,pArr.mergeCs.hidden_ctrE,pArr.mergeCs.hidden_ctrELable,pArr.mergeCs.hidden_ctrE2Cells);
-    //CsCurvNet.ReadFrameCurves(string("../ConvertFolder/mediumRe/cellsframe_"), string("fv_vec.txt"),string("fe_vvec.txt"), string("cf_vvec.txt"));
-
-    //return pArr._frameFs.size();
 
     numofTopo.clear();
 
@@ -92,16 +101,14 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
         }
     }
 
-    cout << "------------ Process Each Cell ------------" << endl;
+
 
     int nCell = pArr._nCell;
-    //vector<Cell> resCells(nCell);
-
     pLs.clear();
-    cout << "------------ Process Each Cell ------------" << endl;
+
     pLs.resize(nCell);
 
-    cout << "------------ Process Each Cell ------------" << endl;
+
     pArr._cellNexplored2Topogroup.resize(nCell);
     for (int ci = 0; ci < nCell; ++ci) {
         cout << "\n++ cell[" << ci << "] ++" << endl;
@@ -124,18 +131,8 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
         MMLevelSet &ls = pLs[ci];
 
 
-        vector<vector<int>> activeFs;
-        vector<vector<float>> crvVs;
-        vector<vector<int>> crvEs;
         ls.LoadCell(cellVs, cellVMarkers,cellTs, cellInitLabel, cellNMat);
-        //ls.LoadCell(cellVs,cellTs, cellInitLabel, cellNMat);
 
-
-
-
-        //ls._mesh->GetCurveInfoForArrangement(activeFs, crvVs, crvEs);
-
-        //pArr.ReportCrossSectionCurve(ci, activeFs, crvVs, crvEs);
 
 
         pArr.MapLoopToSegs(ci,ls._mesh->_bdLoopsV);
@@ -144,10 +141,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
 
 
         OffsetVector seedOffset = vector<float>(cellNMat, 0.0);
-        //      if(ci==2){
-        //          //seedOffset[0] = 0.24;
-        //          seedOffset[1] = 0.62;seedOffset[2] = 0.54;
-        //      }
+
         Labeling seedLabeling;
         ls.OffsetVector2Labeling(seedOffset, seedLabeling);
         //resCells[ci]._activeFs = activeFs;
@@ -170,14 +164,11 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
             ls._mesh->GenerateLevelSetFromLabeling(seedLabeling, sufVs, sufFs,
                                                    sufFMats);//isosurface
             //string outfile = outdir + "/suf_" + to_string(ci) + "_0offset.suf";
-            string outfile = outdir + "/suf_" + to_string(ci) + "_0.suf";
+            string outfile = suf_folder + "suf_" + to_string(ci) + "_0.suf";
             ls._mesh->WriteLevelSet(sufVs, sufFs, sufFMats,mappingMat, outfile.c_str());
         }
 
-        if(isGenMo){
-            numofTopo.push_back(1);
-            continue;
-        }
+
 
 
         clock_t start = clock(), end;
@@ -221,11 +212,8 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
                 ls.OffsetVector2Labeling(ls._cellTopologies[i]._offset, topolables);
                 ls._mesh->GenerateLevelSetFromLabeling(topolables,
                                                        sufVs, sufFs, sufFMats);
-                //ls._mesh->GenerateLevelSetFromLabeling(ls._cellTopologies[i]._label,
-                                                       //sufVs, sufFs, sufFMats);
-                //resCells[ci]._sufs[i] = Interface(sufVs, sufFs, sufFMats);
                 string outfile =
-                        outdir + "/suf_" + to_string(ci) + "_" + to_string(i) + ".suf";
+                        suf_folder + "suf_" + to_string(ci) + "_" + to_string(i) + ".suf";
                 ls._mesh->WriteLevelSet(sufVs, sufFs, sufFMats,mappingMat, outfile.c_str());
             }
         }
@@ -239,18 +227,15 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
     cout << "Total time: " << time << endl<< endl<< endl<< endl;
 
     pArr.time_stage1 = time;
-    pArr.WriteToMappingInfo();
-    //exit(-1231);
+    //pArr.WriteToMappingInfo();
 
-    cout << "------------ Save Curves ------------" << endl;
+
+    pArr.LoopMergingDP();
+    pArr.MakeupLoop2SegsLists();
+
+    //cout << "------------ Save Curves ------------" << endl;
     //pArr.ExportCrossSectionCurvesNonParallel("../OutputCrossSec.contour");//all curves
-    if(!isGenMo){
-        pArr.LoopMergingDP();
-        pArr.MakeupLoop2SegsLists();
-    }
-    vector<int>pikkkk(pArr._nCell,0);
-    //pArr.DynamicProgramming(pikkkk);
-    //pArr.DynamicProgramming();
+
     cout << "Done" << endl;
 
 

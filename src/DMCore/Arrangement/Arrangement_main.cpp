@@ -1033,7 +1033,7 @@ void Arrangement::constructArrangementMM(
 
     tetrahedralize(switches, &in, &out);
 
-    char *tetout = (char*)(t_savedir.data());
+    //char *tetout = (char*)(t_savedir.data());
     cout<<"out.numberofpoints "<<out.numberofpoints<<endl;
     //out.save_nodes(tetout);
     //out.save_elements(tetout);

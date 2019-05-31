@@ -627,9 +627,7 @@ int ParallelArrangement::MergeTwoCellTopo(int stepi,CellTopology &preCell,CellTo
     assert(stepi>=0);
     assert(stepi<_nCell);
 
-    if(stepi==2){
-        //cout<<stepi<<endl;
-    }
+
     mergeCell._score = preCell._score + curCell._score;
     mergeCell._junctionpoints = preCell._junctionpoints + curCell._junctionpoints;
     mergeCell.comp2VEF.clear();mergeCell._comps.clear();
@@ -1003,7 +1001,6 @@ bool ParallelArrangement::DynamicProgramming(){
         if(fin.fail()){
             cout<<"cant open file: "<<allowMinuteFname<<endl;
         }else{
-
             fin>>allowMinute;
         }
     }
@@ -1036,11 +1033,10 @@ bool ParallelArrangement::DynamicProgramming(){
         }
     }
 
+
     for(auto &a:*preContainer)MapComponentLoops2CompactLoop(beCellid,a);
+
     for(int stepi=1;stepi<_nCell;++stepi){
-        if(stepi==_nCell-1){
-            //cout<<stepi<<endl;
-        }
 
         t1 = clock();
         int newCellid = mergingorder[stepi];
@@ -1134,7 +1130,7 @@ bool ParallelArrangement::DynamicProgramming(){
 
 
 
-        OutputDPInfo(string("../mappingInfo/"),pickTopoInd,ReturnTopo._score,time,ReturnTopo.isoComps2VEF,ReturnTopo.isoComps2label);
+        OutputDPInfo(outfoldername_meta,pickTopoInd,ReturnTopo._score,time,ReturnTopo.isoComps2VEF,ReturnTopo.isoComps2label);
 
         return true;
     }else{
@@ -1142,7 +1138,7 @@ bool ParallelArrangement::DynamicProgramming(){
         cout<<"Not found!"<<endl;
         triggerWarningbox("Not found!");
         vector<int>fake(_nMat,-2);
-        OutputDPInfo(string("../mappingInfo/"),pickTopoInd,0,-1.,fake,fake);
+        OutputDPInfo(outfoldername_meta,pickTopoInd,0,-1.,fake,fake);
         return false;
     }
 

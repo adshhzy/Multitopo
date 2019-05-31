@@ -2,8 +2,6 @@
 #include <unistd.h>
 #include <vector>
 #include <string>
-#include <dirent.h>
-#include <sys/stat.h>
 using namespace std;
 
 
@@ -15,11 +13,7 @@ vector<int> runDynamicProgramming(string protocalname, vector<int>&TopoConstrain
 void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd);
 void SplitFileName (const std::string& fullfilename,std::string &filepath,std::string &filename,std::string &extname);
 
-void makemethodfolder(string &foldername){
-    struct stat sb;
-    if(!(stat(foldername.data(), &sb) == 0 && S_ISDIR(sb.st_mode)))mkdir(foldername.data(),0777);
-    return;
-}
+void makemethodfolder(string foldername);
 
 int main(int argc, char** argv)
 {
@@ -45,7 +39,7 @@ int main(int argc, char** argv)
     int methodid = 4;
 
     //compute: 0; compute and save: 1;  load: 2; load only, not writing suf: 3;
-    int computeSaveLoad = 1;
+    int computeSaveLoad = 0;
 
     int ray_density = 2;
     isCJP = false;
@@ -121,7 +115,7 @@ int main(int argc, char** argv)
 
 
 
-    outputCombineSurface(outputss,numofTopo,pickTopoInd);
+    outputCombineSurface(outputss+"suf/",numofTopo,pickTopoInd);
 
     return 0;
 }
