@@ -53,6 +53,7 @@ where:
 3. -p: followed by the path of the protocol file for specifying the topological constriain. protocol_file_name is a path to the protocol file. The protocol file should be a .txt file. In the first row, it should be the constraint on the number of component of each label, orderly. If you don't want to put constraint on some of the labels, put -1 in the position. Note that the first number should be the constraint of numbers of components on the 0 lable, which usually be the background. Starting from the second row, you should specifying the genus constraint on each component of the label, if you don't want to specify the genus constraint, put -1 on that position. Note that the numbers on each row should match the number of components specified in the first row for the label. If you don't specify the numbers of component in the first row for that label, you are not allowed to specify the genus constraint on that label and you have to put -1 in the correspond row.
 
 -1 -1 1 2 -1 3
+
 -1
 -1
 0
