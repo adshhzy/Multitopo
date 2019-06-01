@@ -199,7 +199,7 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
 
         if(nTopo>500){
             cout<<"more than 500 topo!"<<endl;
-           // exit(500);
+            // exit(500);
         }
         Labeling topolables;
         if(computeSaveLoad!=3)for (int i = 0; i < nTopo; ++i) {
@@ -250,15 +250,15 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
 
     return pArr._frameFs.size();
 
-//    cout << "------------ Save Complete Surface ------------" << endl;
-//    vector<int> topoIDs(nCell, 0);
-//    vector<vector<float>> sufVs;
-//    vector<vector<int>> sufFs;
-//    vector<vector<int>> sufFMats;
-//    vector<vector<int>> segEs;
-//    pArr.GatherAllActiveFAndCrvVE();
-//    pArr.CombineInterfaces(resCells, topoIDs, sufVs, sufFs, sufFMats, segEs);
-//    MingUtility::WriteLevelSet(sufVs, sufFs, sufFMats, segEs, "../OutputSuf.suf");//all surfaces(materials)
+    //    cout << "------------ Save Complete Surface ------------" << endl;
+    //    vector<int> topoIDs(nCell, 0);
+    //    vector<vector<float>> sufVs;
+    //    vector<vector<int>> sufFs;
+    //    vector<vector<int>> sufFMats;
+    //    vector<vector<int>> segEs;
+    //    pArr.GatherAllActiveFAndCrvVE();
+    //    pArr.CombineInterfaces(resCells, topoIDs, sufVs, sufFs, sufFMats, segEs);
+    //    MingUtility::WriteLevelSet(sufVs, sufFs, sufFMats, segEs, "../OutputSuf.suf");//all surfaces(materials)
     cout << "Done" << endl;
 
 
@@ -268,28 +268,31 @@ int az2(string incontour, string outdir, int MMprop_f2vmethod,
 
 vector<int> runDynamicProgramming(string protocalname, vector<int>&TopoConstraintInd){
 
-      pArr.DynamicProgramming(protocalname,TopoConstraintInd);
-      return pArr.pickTopoInd;
+    pArr.DynamicProgramming(protocalname,TopoConstraintInd);
+    return pArr.pickTopoInd;
 
 }
 
 
-void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd){
+
+n_rf::MultiCellTopo displayMMCT;
+
+
+void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd, int mode){
 
     vector<vector<double>>TopoVs; vector<vector<uint>>TopoFs;
     vector<vector<int> > TopoFMs;vector<vector<uint>>TopoCtrs;
-
     n_rf::SufStructure pSuf;
-
-
-    n_rf::MultiCellTopo displayMMCT;
     n_rf::MultiSurface displaySurface_multi;
 
-    displayMMCT.ReadCellTopo(outfolder+string("suf"),Cell2NTopo,false);
-    displayMMCT.GlobalSmoothing();
+    if(mode == 0){
+        displayMMCT.ReadCellTopo(outfolder+string("suf"),Cell2NTopo,false);
+        displayMMCT.GlobalSmoothing();
+    }
 
     displayMMCT.GetAllCellTopos(pickTopoInd, TopoVs, TopoFs,TopoFMs,TopoCtrs);
     pArr.CreateTotalSurf(TopoVs, TopoFs,TopoFMs,TopoCtrs,true,&pSuf);
+
     displaySurface_multi.ImportFromSuf(pSuf,true,false,true);
     displaySurface_multi.SmoothSurfNet_JuFair(50);
 
@@ -298,3 +301,6 @@ void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&
 
 
 }
+
+
+

@@ -10,7 +10,7 @@ bool isCJP = true;
 int az2(string incontour, string outdir, int MMprop_f2vmethod,
         int endstep, int density, vector<int>&numofTopo, vector<int>&cellSeq, int &nMat, int computeSaveLoad, string iofile);
 vector<int> runDynamicProgramming(string protocalname, vector<int>&TopoConstraintInd);
-void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd);
+void outputCombineSurface(string outfolder, vector<int>&Cell2NTopo, vector<int>&pickTopoInd,  int mode = 0);
 void SplitFileName (const std::string& fullfilename,std::string &filepath,std::string &filename,std::string &extname);
 
 void makemethodfolder(string foldername);
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     string outputss = mediumfolder+ctrmodelname+string("/");
     string ioTopofilename = string("../saveTopos/")+ctrmodelname+string(".topos");
 
-    string protocol_name = string("../protocal/")+ctrmodelname+string(".txt");
+    string protocol_name = string("../protocol/")+ctrmodelname+string(".txt");
 
     string ext, inpath;
 
@@ -44,10 +44,11 @@ int main(int argc, char** argv)
     int ray_density = 2;
     isCJP = false;
     int endstep = 1;
+    bool isDPtesting = false;
 
     int c;
     optind=1;
-    while ((c = getopt(argc, argv, "i:o:p:m:d:s:j")) != -1) {
+    while ((c = getopt(argc, argv, "i:o:p:m:d:s:jk")) != -1) {
         switch (c) {
         case 'i':
             inputctr = string(optarg);
@@ -72,8 +73,14 @@ int main(int argc, char** argv)
                 computeSaveLoad = 0;
             }
             break;
+        case 't':
+            ioTopofilename = string(optarg);
+            break;
         case 'j':
             isCJP = true;
+            break;
+        case 'k':
+            isDPtesting = true;
             break;
         case '?':
             cout << "Bad argument setting!" << endl;
@@ -113,9 +120,18 @@ int main(int argc, char** argv)
 
     vector<int>pickTopoInd = runDynamicProgramming(protocol_name,TopoConstraintInd);
 
+    outputCombineSurface(outputss+"suf/",numofTopo,pickTopoInd, 0);
 
+    if(isDPtesting)while(true){
+        cout<<"When you modify the protocol file and ready to rerun the dynamic programming, input any char except e."<<endl;
+        cout<<"If you want to exit the program, input e"<<endl;
+        char a;
+        cin>>a;
+        if(a=='e')return 0;
 
-    outputCombineSurface(outputss+"suf/",numofTopo,pickTopoInd);
+        vector<int>pickTopoInd = runDynamicProgramming(protocol_name,TopoConstraintInd);
+        outputCombineSurface(outputss+"suf/",numofTopo,pickTopoInd, 1);
+    };
 
     return 0;
 }
