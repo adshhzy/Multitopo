@@ -80,7 +80,8 @@ In the above protocol example, you are working on a 6-label domain. The protocol
 
 We provide few examples in the data folder for testing.
 1. $./multitopo -i ../data/mug.contour -o ./data/mug/ -p ../protocol/mug.txt -m 0
-1. $./multitopo -i ../data/liver.contour -o ./data/liver/ -p ../protocol/liver.txt -m 1
+2. $./multitopo -i ../data/liver.contour -o ./data/liver/ -p ../protocol/liver.txt -m 1
+3. $./multitopo -i ../data/mousebrain.contour -o ./data/mousebrain/ -p ../protocol/mousebrain.txt -m 0
 
 The program will create three subfolder in the output path to store the output data. Including the "cross-section" folder for storing the cell complexity (space arrangement created by the planes of the input), "suf" folder for storing the candidate topologies with each cell, "meta" folder for all infomation needed in the dynamic programming stage.
 
