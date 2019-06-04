@@ -119,21 +119,17 @@ public:
 int main(int argc, const char * argv[]) {
 	
 	
-	//path to the folder
-//	string prepath("/Users/Research/Geometry/MM/data_mappings/chickenheart_test/");
-//	string file = prepath + string("chickenheart_test")+string(".mat");
-	//structure for the contour network
+	//path to the meta folder	
+	string prepath("../data/mug/meta/");
 	
-	string prepath("/Users/Research/Geometry/MM/mappingInfo/");
-	string file = prepath + string("m3c6p8")+string(".mat");
-//	string modelname("m3c12p16"); 
-//	string prepath("/Users/Research/Geometry/MM/synthetic_4_3material_pruning/");
-//	prepath = prepath + modelname +string("//");
-//	string file = prepath + modelname +string(".mat");
+#ifdef WRITEMATLAB
+	string file = prepath + string("matlabfile")+string(".mat");
+#endif
 
-	
-	
+
 	bool issuf = false;
+	
+	//structure for the contour network
 	Ctr ctr;
 	
 	
@@ -260,7 +256,8 @@ int main(int argc, const char * argv[]) {
 		cell2topoSuf.resize(n_cell);
 		for(int i = 0;i<n_cell;++i){
 			cell2topoSuf[i].resize(cell2ntopo[i]);
-			string prefilename = prepath+"topoSuf/suf_"+to_string(i)+"_";
+			//string prefilename = prepath+"topoSuf/suf_"+to_string(i)+"_";
+			string prefilename = prepath+"../suf/suf_"+to_string(i)+"_";
 			for(int j=0;j<cell2ntopo[i];++j){
 				string filename = prefilename+to_string(j)+".suf";
 				cell2topoSuf[i][j].readSuf(filename);
@@ -284,8 +281,6 @@ int main(int argc, const char * argv[]) {
 #ifdef WRITEMATLAB
 	
 	MATFile *pmat;
-	//const char *file = "/Users/Research/Geometry/MM/data_mappings/reader/mattest.mat";
-	
 
 	printf("Creating file %s...\n\n", file.data());
 	pmat = matOpen(file.data(), "w");
