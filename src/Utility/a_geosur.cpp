@@ -1828,7 +1828,7 @@ int Surface::importSurface(string inFpre, string insurend, string inf2Cs, string
     }
 
 
-    writeSufFile(inFpre+string("testM"),vertices,faces2vertices,fakefacesMat,Ctredges);
+    writeSufFile(inFpre+string("space_arrangement"),vertices,faces2vertices,fakefacesMat,Ctredges);
 
     return nCs;
 
