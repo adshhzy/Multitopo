@@ -89,6 +89,9 @@ The program will create three subfolder in the output path to store the output d
 
 To read the meta file for further utilization, please go to the "reader" folder and check the code (C++) to see how to interpret the meta files.
 
+To visualize the result, please refer to our viewer for multi-labeled surface:
+https://github.com/adshhzy/Viewer
+
 For further questions about the code and the paper, please contact Zhiyang Huang at adshhzy@gmail.com or zhiyang.huang@wustl.edu (might be invalid after he graduated). You can also contact Prof. Tao Ju at taoju@wustl.edu.
 
 
