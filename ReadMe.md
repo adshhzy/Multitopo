@@ -11,7 +11,7 @@ The primary function of this program is to provide the topological-control surfa
 
 Currently, the code is only tested on Mac OS X 10.13 or above, it should work at other platforms with minor modification.
 
-The program ouputs multi-labeled surface (*.suf). To visualize the result, please also refer to our viewer for multi-labeled surface:
+The program ouputs multi-labeled surface (*.suf). We refer the user to https://www.cse.wustl.edu/~taoju/lliu/paper/ctr2suf/program.html for a description of this format. To visualize the result, please also refer to our viewer for multi-labeled surface:
 https://github.com/adshhzy/Viewer
 
 BUILDING
