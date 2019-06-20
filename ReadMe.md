@@ -87,7 +87,7 @@ We provide few examples in the data folder for testing.
 2. $./multitopo -i ../data/liver.contour -o ./data/liver/ -p ../protocol/liver.txt -m 1
 3. $./multitopo -i ../data/mousebrain.contour -o ./data/mousebrain/ -p ../protocol/mousebrain.txt -m 0
 
-The program will create three subfolder in the output path to store the output data. Including the "cross-section" folder for storing the cell complexity (space arrangement created by the planes of the input), "suf" folder for storing the candidate topologies with each cell as well as the combined surface, "meta" folder for all infomation needed and computed in the dynamic programming stage. To get the final result, check suf/outcombine.suf and suf/outcombine.obj. The picked candidated of each cell is output at meta/pickTopo_vec.txt
+The program will create three subfolder in the output path to store the output data, including the "cross-section" folder for storing the cell complexity (space arrangement created by the cross-sectional planes of the input), "suf" folder for storing the candidate topologies with each cell as well as the combined surface, "meta" folder for all infomation needed and computed in the dynamic programming stage. To get the final result, check suf/outcombine.suf and suf/outcombine.obj. The picked candidated of each cell is output at meta/pickTopo_vec.txt. The triangulated cell complexity is output at cross-section/space_arrangement.suf.
 
 To read the meta file for further utilization, please go to the "reader" folder and check the code (C++) to see how to interpret the meta files.
 
